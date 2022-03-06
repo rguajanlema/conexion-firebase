@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import firebaseApp from "../firebase/credenciales";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const auth = getAuth(firebaseApp);
@@ -9,10 +9,9 @@ const auth = getAuth(firebaseApp);
 
 function Login() {
 
+  const [isRegistrado, setIsRegistrado] = useState(false);
   const firestore = getFirestore(firebaseApp);
   
-  const [isRegistrado, setIsRegistrado] = useState(false);
-
   async function registrarUsuario(email, password, rol) {
     const infoUsuario = await createUserWithEmailAndPassword(
       auth,
@@ -42,6 +41,7 @@ function Login() {
       registrarUsuario(email, password, rol);
     } else {
       //login
+      signInWithEmailAndPassword(auth,email,password);
     }
   }
 
